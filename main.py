@@ -1,3 +1,11 @@
+import streamlit as st
+import pandas as pd
+import requests
+st.set_page_config(
+    page_title="World Cup On",
+    page_icon="🏆",
+    layout="wide"
+)
 menu = st.sidebar.radio(
     "메뉴",
     [
