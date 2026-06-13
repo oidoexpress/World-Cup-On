@@ -53,7 +53,7 @@ elif menu == "🇰🇷 대한민국 대표팀":
 """)
 
     st.image(
-        "https://upload.wikimedia.org/wikipedia/en/0/09/Korea_Football_Association_logo.svg",
+        "https://wimg.sedaily.com/news/legacy/2023/03/03/29MVTGNQTB_1.jpg",
         width=200
     )
 
