@@ -16,6 +16,7 @@ menu = st.sidebar.radio(
     "메뉴",
     [
         "🏠 홈",
+        "🔴 실시간 경기",
         "⚽ 경기 일정",
         "📊 조별리그",
         "🌎 개최국",
@@ -23,41 +24,44 @@ menu = st.sidebar.radio(
         "📚 역대 우승국"
     ]
 )
-
 # -------------------
 # 홈
 # -------------------
+elif menu == "🔴 실시간 경기":
 
-if menu == "🏠 홈":
+    st.title("🔴 실시간 축구 경기")
 
-    st.image(
-        "https://img.sbs.co.kr/newimg/news/20230518/201785626_500.jpg",
-        use_container_width=True
-    )
+    import requests
 
-    st.title("🏆 World Cup On")
+    url = "https://www.thesportsdb.com/api/v1/json/3/livescore.php?s=Soccer"
 
-    st.subheader("2026 FIFA 북중미 월드컵")
+    try:
+        response = requests.get(url, timeout=10)
+        data = response.json()
 
-    col1, col2, col3 = st.columns(3)
+        matches = data.get("event")
 
-    col1.metric("참가국", "48개국")
-    col2.metric("경기 수", "104경기")
-    col3.metric("개최국", "3개국")
+        if matches:
 
-    st.markdown("---")
+            for match in matches[:20]:
 
-    st.markdown("""
-    ### 🌎 개최국
+                home = match.get("strHomeTeam", "Unknown")
+                away = match.get("strAwayTeam", "Unknown")
 
-    🇺🇸 미국
+                home_score = match.get("intHomeScore", "-")
+                away_score = match.get("intAwayScore", "-")
 
-    🇨🇦 캐나다
+                league = match.get("strLeague", "")
 
-    🇲🇽 멕시코
+                st.info(
+                    f"{league}\n\n⚽ {home} {home_score} : {away_score} {away}"
+                )
 
-    역사상 최대 규모의 FIFA 월드컵이 개최됩니다.
-    """)
+        else:
+            st.warning("현재 진행 중인 경기가 없습니다.")
+
+    except Exception as e:
+        st.error(f"API 오류: {e}")
 
 # -------------------
 # 경기 일정
