@@ -54,7 +54,11 @@ elif menu == "🔴 실시간 경기":
 
         if matches:
 
-            for match in matches[:20]:
+            st.success(f"현재 {len(matches)}개의 경기가 진행 중입니다.")
+
+            for match in matches:
+
+                league = match.get("strLeague", "리그 정보 없음")
 
                 home = match.get("strHomeTeam", "Unknown")
                 away = match.get("strAwayTeam", "Unknown")
@@ -62,103 +66,34 @@ elif menu == "🔴 실시간 경기":
                 home_score = match.get("intHomeScore", "-")
                 away_score = match.get("intAwayScore", "-")
 
-                st.write(
-                    f"⚽ {home} {home_score} : {away_score} {away}"
-                )
+                status = match.get("strStatus", "LIVE")
+                minute = match.get("strProgress", "")
+
+                venue = match.get("strVenue", "경기장 정보 없음")
+                attendance = match.get("intSpectators", "-")
+
+                with st.container():
+
+                    st.markdown(f"## 🏆 {league}")
+
+                    st.markdown(
+                        f"""
+### ⚽ {home} {home_score} : {away_score} {away}
+
+🔴 상태 : {status}
+
+⏱ 진행시간 : {minute}
+
+🏟 경기장 : {venue}
+
+👥 관중 : {attendance}
+"""
+                    )
+
+                    st.divider()
 
         else:
             st.warning("현재 진행 중인 경기가 없습니다.")
 
     except Exception as e:
         st.error(f"API 오류: {e}")
-
-# 경기 일정
-elif menu == "⚽ 경기 일정":
-
-    st.title("⚽ 경기 일정")
-
-    schedule = pd.DataFrame({
-        "날짜": [
-            "2026-06-11",
-            "2026-06-12",
-            "2026-06-13"
-        ],
-        "경기": [
-            "개막전",
-            "조별리그",
-            "조별리그"
-        ]
-    })
-
-    st.dataframe(schedule, use_container_width=True)
-
-# 조별리그
-elif menu == "📊 조별리그":
-
-    st.title("📊 조별리그")
-
-    st.dataframe(
-        pd.DataFrame({
-            "국가": [
-                "대한민국",
-                "멕시코",
-                "남아공",
-                "체코"
-            ]
-        }),
-        use_container_width=True
-    )
-
-# 개최국
-elif menu == "🌎 개최국":
-
-    st.title("🌎 개최국")
-
-    st.write("🇺🇸 미국")
-    st.write("🇨🇦 캐나다")
-    st.write("🇲🇽 멕시코")
-
-# 대한민국
-elif menu == "🇰🇷 대한민국":
-
-    st.title("🇰🇷 대한민국 국가대표")
-
-    players = pd.DataFrame({
-        "선수": [
-            "손흥민",
-            "이강인",
-            "김민재",
-            "황희찬"
-        ],
-        "포지션": [
-            "FW",
-            "MF",
-            "DF",
-            "FW"
-        ]
-    })
-
-    st.dataframe(players, use_container_width=True)
-
-# 역대 우승국
-elif menu == "📚 역대 우승국":
-
-    winners = pd.DataFrame({
-        "연도": [2010, 2014, 2018, 2022],
-        "우승국": ["스페인", "독일", "프랑스", "아르헨티나"]
-    })
-
-    st.dataframe(winners, use_container_width=True)
-
-# 푸터
-st.markdown("---")
-
-st.markdown(
-    """
-    <div style='text-align:center;color:gray'>
-    <b>World Cup On</b><br>
-    © 2026 World Cup On
-    </div>
-    """,
-    unsafe_allow_html=True
-)
