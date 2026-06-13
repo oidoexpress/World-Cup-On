@@ -6,6 +6,48 @@ st.set_page_config(
     page_icon="🏆",
     layout="wide"
 )
+st.markdown(
+    """
+    <style>
+    /* 전체 배경 */
+    .stApp {
+        background-color: #b30000;
+        color: white;
+    }
+
+    /* 사이드바 */
+    section[data-testid="stSidebar"] {
+        background-color: #7a0000;
+    }
+
+    /* 텍스트 기본 색 */
+    h1, h2, h3, p, div {
+        color: white !important;
+    }
+
+    /* 데이터프레임 스타일 */
+    .dataframe {
+        background-color: white;
+        color: black;
+    }
+
+    /* 버튼 */
+    .stButton>button {
+        background-color: black;
+        color: white;
+    }
+
+    /* metric 카드 */
+    div[data-testid="metric-container"] {
+        background-color: #ff1a1a;
+        border-radius: 10px;
+        padding: 10px;
+        color: white;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 menu = st.sidebar.radio(
     "메뉴",
     [
